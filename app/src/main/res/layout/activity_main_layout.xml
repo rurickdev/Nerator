@@ -27,6 +27,7 @@
 
     </android.support.design.widget.TextInputLayout>
 
+    <!--Boton de info para el numero de caracteres-->
     <ImageView
         android:id="@+id/Image_Info_Button_Numero"
         android:layout_width="wrap_content"
@@ -52,6 +53,7 @@
 
     </android.support.design.widget.TextInputLayout>
 
+    <!--Boton de info para los caracteres especiales-->
     <ImageView
         android:id="@+id/Image_Info_Button_Especiales"
         android:layout_width="wrap_content"
@@ -70,7 +72,7 @@
         android:text="@string/boton_generar"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/TextLayout_Caracteres_Especiales"
-        android:onClick="Botonaso"/>
+        android:onClick="GenerarNombre"/>
 
     <!--TextView para mostrar la cadena aleatoria-->
     <TextView
@@ -78,7 +80,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/Boton_Generar"
-        android:hint="Nombre Generado"/>
-
+        android:hint="Nombre Generado"
+        android:textSize="20sp"
+        android:lineSpacingExtra="5dp"
+        android:isScrollContainer="true"
+        android:focusable="true"
+        android:fontFamily="monospace"
+        />
 
 </RelativeLayout>

@@ -5,6 +5,7 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -26,30 +27,68 @@ public class MainActivity extends AppCompatActivity {
         textCaracteresEspeciales = (TextInputEditText) findViewById(R.id.Text_Caracteres_Escpeciales);
         textViewGenerado = (TextView) findViewById(R.id.TextView_Texto_Generado);
 
+        textViewGenerado.setMovementMethod(new ScrollingMovementMethod());
+        textViewGenerado.setTextIsSelectable(true);
     }
 
     //Metodo encargado de generar una cadena aleatoria
     //Recive Int Cantidad de caracteres, String caracteres especiales que se quieran agregar
     public String GenerarCadenaAleatoria(int numCaracteres, String caracteresEsp){
 
-        String alfabeto = "abcdefghijklmnñopqrstuvwxyz", cadena="", listaCadenas="";
-        int numeroRandom;
-
-        //Agrega al alfabeto los caracteres especiales
-        alfabeto = alfabeto+caracteresEsp;
+        String consonantes = "bcdfghjklmnpqrstvwxyz", vocales="aeiou", cadena="", listaCadenas="";
+        int numeroRandom, eleccion,
+                //Contadores para control de repeticiones
+                cont1=0, cont2=0, cont3=0;
 
         //Crea la lista de cadenas
         for(int h=0;h<=20;h++) {
+            //Crea la cadena tomando letras aleatorias de las consonantes, vocales y simbolos
+            do{
+                eleccion=(int)((Math.random()*3)+1);
 
-            //Crea la cadena tomando letras aleatorias del alfabeto
-            for(int i = 0; i <= numCaracteres; i++) {
-                numeroRandom = (int) (Math.random() * alfabeto.length());
-                cadena = cadena + alfabeto.charAt(numeroRandom);
+                //Si un tipo de letra se repite 2 veces se ignorara hasta que tique un tipo diferente
+                switch(eleccion){
+                    case 1:
+                        if(cont1!=2) {
+                            numeroRandom = (int) (Math.random() * consonantes.length());
+                            cadena = cadena + consonantes.charAt(numeroRandom);
+                            //Cuenta cuantas veces se a repetido
+                            cont1++;
+                            //Al entrar 1 vez las debas letras quedan disponibles reiniciando sus contadores
+                            cont2 = 0;
+                            cont3 = 0;
+                        }
+                        break;
+                    case 2:
+                        if(cont2!=2) {
+                            numeroRandom = (int) (Math.random() * vocales.length());
+                            cadena = cadena + vocales.charAt(numeroRandom);
+                            cont2++;
+                            cont1 = 0;
+                            cont3 = 0;
+                        }
+                        break;
+                    case 3:
+                        if((caracteresEsp != null)&&(!caracteresEsp.equals(""))) {
+                            if(cont3!=2) {
+                                numeroRandom = (int) (Math.random() * caracteresEsp.length());
+                                cadena = cadena + caracteresEsp.charAt(numeroRandom);
+                                cont3++;
+                                cont1 = 0;
+                                cont2 = 0;
+                            }
+                        }
+                        break;
+                    default:
+                        break;
+                }
+
                 //Convierte a mayuscula la primera letra del nombre
-                if(i == 0) {
+                if(cadena.length()==1) {
                     cadena = cadena.toUpperCase();
                 }
-            }
+            //Se repite hasta que la cadena tenga el tamaño deseado
+            }while(cadena.length()<numCaracteres);
 
             //Concatena las cadenas para la lista
             listaCadenas=listaCadenas+cadena+"\n";
@@ -61,15 +100,17 @@ public class MainActivity extends AppCompatActivity {
         return listaCadenas;
     }
 
-    public void Botonaso(View v){
-        String numero="", caracteres="";
-        int numeroInt=14;
+    public void GenerarNombre(View v){
+        String caracteres="";
+        int numeroInt=15;
 
-        //Obtiene el numero de caracteres del EditText y los convierte en entero
+        //Obtiene el numero de caracteres del EditText y los convierte en entero, si es mayor a 15 usa 14 en su lugar
         try{
-            numeroInt = Integer.parseInt(numero = textNumeroCaracteres.getText().toString().trim());
+            numeroInt = Integer.parseInt(textNumeroCaracteres.getText().toString().trim());
             if(numeroInt>15){
-                numeroInt=14;
+                Toast toastError = Toast.makeText(getApplicationContext(), "Numero mayor al limite, maximo 15", Toast.LENGTH_SHORT);
+                toastError.show();
+                numeroInt=15;
             }
         }catch(Exception e){
             Toast toastError = Toast.makeText(getApplicationContext(), "Error Get Text Numero", Toast.LENGTH_SHORT);
@@ -88,11 +129,14 @@ public class MainActivity extends AppCompatActivity {
         textViewGenerado.setText(GenerarCadenaAleatoria(numeroInt, caracteres));
     }
 
+    //Metodo encargado de mostrar un dialogo informativo sobre el numero maximo de caracteres
     public void DialogoSoloNumeros(View v){
         AlertDialog.Builder constructorDialogo = new AlertDialog.Builder(this);
         constructorDialogo.setIcon(R.drawable.ic_info)
                 .setTitle("Info")
-                .setMessage("Solo se permite poner numeros.\nEl numero maximo de caracteres es 15.")
+                .setMessage("Solo se permite poner numeros.\n" +
+                        "El numero maximo de caracteres es 15.\n" +
+                        "En caso de que se deje vacio se usará 15")
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -102,11 +146,13 @@ public class MainActivity extends AppCompatActivity {
         mensaje.show();
     }
 
+    //Muestra un dialogo informativo sobre los caracteres que se pueden utilizar
     public void DialogoCualquierCaracter(View v){
         AlertDialog.Builder constructorDialogo = new AlertDialog.Builder(this);
         constructorDialogo.setIcon(R.drawable.ic_info)
                 .setTitle("Info")
-                .setMessage("Puedes agregar cualquier caracter que desees que aparesca en los nombre.\nEstos pueden o no aparecer en los mismos.")
+                .setMessage("Puedes agregar cualquier caracter que desees que aparesca en los nombre.\n" +
+                        "Estos pueden o no aparecer en los mismos.")
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

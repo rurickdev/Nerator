@@ -34,8 +34,10 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_info"
         android:layout_alignRight="@id/TextLayout_Numero_Caracteres"
+        android:layout_alignEnd="@id/TextLayout_Numero_Caracteres"
         android:clickable="true"
-        android:onClick="DialogoSoloNumeros"/>
+        android:onClick="DialogoSoloNumeros"
+        android:contentDescription="@string/info_cantidad"/>
 
     <!--Layout para el EditText para agregar caracteres especiales-->
     <android.support.design.widget.TextInputLayout
@@ -60,9 +62,11 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_info"
         android:layout_alignRight="@id/TextLayout_Caracteres_Especiales"
+        android:layout_alignEnd="@id/TextLayout_Caracteres_Especiales"
         android:layout_below="@id/TextLayout_Numero_Caracteres"
         android:clickable="true"
-        android:onClick="DialogoCualquierCaracter"/>
+        android:onClick="DialogoCualquierCaracter"
+        android:contentDescription="@string/info_especiales"/>
 
     <!--Boton para generar la cadena aleatoria-->
     <Button
@@ -77,15 +81,16 @@
     <!--TextView para mostrar la cadena aleatoria-->
     <TextView
         android:id="@+id/TextView_Texto_Generado"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/Boton_Generar"
-        android:hint="Nombre Generado"
+        android:layout_centerHorizontal="true"
+        android:hint="@string/hint_nombres"
         android:textSize="20sp"
+        android:textAlignment="center"
         android:lineSpacingExtra="5dp"
         android:isScrollContainer="true"
         android:focusable="true"
-        android:fontFamily="monospace"
         />
 
 </RelativeLayout>

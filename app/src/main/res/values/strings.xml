@@ -3,4 +3,7 @@
     <string name="boton_generar">Generar</string>
     <string name="numero_caracteres">Cantidad de caracteres desseados</string>
     <string name="caracteres_especiales">Caracteres especiales desseados</string>
+    <string name="info_cantidad">Info Cantidad Caracteres</string>
+    <string name="info_especiales">Info Caracteres Especiales</string>
+    <string name="hint_nombres">Nombre Generado</string>
 </resources>

@@ -27,8 +27,10 @@ public class MainActivity extends AppCompatActivity {
         textCaracteresEspeciales = (TextInputEditText) findViewById(R.id.Text_Caracteres_Escpeciales);
         textViewGenerado = (TextView) findViewById(R.id.TextView_Texto_Generado);
 
+        //Permitir scroll y seleccionar texto en el Textview
         textViewGenerado.setMovementMethod(new ScrollingMovementMethod());
         textViewGenerado.setTextIsSelectable(true);
+
     }
 
     //Metodo encargado de generar una cadena aleatoria
@@ -70,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 3:
                         if((caracteresEsp != null)&&(!caracteresEsp.equals(""))) {
-                            if(cont3!=2) {
+                            if(cont3!=1) {
                                 numeroRandom = (int) (Math.random() * caracteresEsp.length());
                                 cadena = cadena + caracteresEsp.charAt(numeroRandom);
                                 cont3++;
@@ -102,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void GenerarNombre(View v){
         String caracteres="";
-        int numeroInt=15;
+        int numeroInt;
 
         //Obtiene el numero de caracteres del EditText y los convierte en entero, si es mayor a 15 usa 14 en su lugar
         try{
@@ -113,8 +115,7 @@ public class MainActivity extends AppCompatActivity {
                 numeroInt=15;
             }
         }catch(Exception e){
-            Toast toastError = Toast.makeText(getApplicationContext(), "Error Get Text Numero", Toast.LENGTH_SHORT);
-            toastError.show();
+            numeroInt=10;
         }
 
         //Obtiene los caracteres especiales del EditText
@@ -136,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                 .setTitle("Info")
                 .setMessage("Solo se permite poner numeros.\n" +
                         "El numero maximo de caracteres es 15.\n" +
-                        "En caso de que se deje vacio se usará 15")
+                        "En caso de que se deje vacio se usará 10")
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
